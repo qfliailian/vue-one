@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax</title>
+</head>
+<script src="vue.js"></script>
+<body>
+	<div id="demo">
+		<p>{{name}}</p>
+		<button @click='ajax()'>Ajax</button>
+	</div>
+</body>
+<script>
+	new Vue({
+		el:'#demo',
+		data:{
+			name:'ggithub'
+		},
+		methods:{
+			ajax:function(){
+				var self = this;
+				var xml = new XMLHttpRequest();
+				xml.open('GET','test.php',true);
+				xml.send();
+				xml.onreadystatechange = function() {
+					if(xml.readyState==4&&xml.status==200){
+						var json = JSON.parse(xml.responseText);
+						console.log(json);
+						self.name = json.name;
+					}
+				}
+			}
+		}
+	})
+</script>
+</html>

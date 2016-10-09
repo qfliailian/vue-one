@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<!--View-->
+		<div id="demo">
+			<input v-model="name" name="{{name}}" /> {{name}}{{skill}}
+			<!--ng-bind-->
+			<p v-text="name"></p>
+			<!--ng-bind-html $sce-->
+			<!--xss-->
+			{{{html}}}
+			{{num>4?'你是真的吧':'你是假的吧'}}
+			<p v-html="html"></p>
+			<!--<button v-on:click="Click()">Ok</button>-->
+			<button @click="Click()">Ok</button>
+		</div>
+		<div id="demo2">
+			{{name}}
+			<button @click="Click()">Ok</button>
+		</div>
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		//		function Vue(name){
+		//			this.name = name
+		//		}
+		//Vue构造器，创建一个对象
+		//Model
+		var Click = function() {
+			console.log(this.name);
+		}
+
+		var data = {
+			name: 'wsscat',
+			skill: 'PS',
+			html: '<p>123</p>',
+			num: 3
+		}
+		var demo = new Vue({
+				//element的缩写
+				el: '#demo',
+				//$scope.name
+				data: data,
+				//把函数定义在methods
+				methods: {
+					Click: Click,
+					Wsscat: function() {
+						console.log("test")
+					}
+				},
+				ready: function() {
+					this.Click();
+				}
+			})
+			//下面是设置数据数据的所有方法
+			//demo.name = 'tacssw';
+			//demo.$data.name = 'tacssw';
+			//demo.$set('name','tacssw')
+		data.name = '123'
+		demo.$get('name')
+		console.log(demo.$get('name'))
+			/*demo.$watch('name',function(o,n){
+				console.log(o+"  "+n)
+			})*/
+		console.log(demo)
+			//demo.Click();
+			//demo.Wsscat();
+
+		new Vue({
+			el: '#demo2',
+			data: {
+				name: 'abc',
+				data: data
+			},
+			methods: {
+				Click: Click
+			}
+		})
+	</script>
+
+</html>

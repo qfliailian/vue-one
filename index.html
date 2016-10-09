@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue</title>
+	<script src="vue.js"></script>
+</head>
+<body>
+	<div id="demo">
+	<input v-model='name' />
+		<p v-text='name'></p>
+		<!-- xss安全问题：就是很容易让别人插入标签script -->
+		{{{html}}}
+		<p v-html='html'></p>
+		<button v-on:click='Click()'>ok</button>
+		<input type="text" v-on:focus="Click()" v-model='input'>
+		<div>{{input}}</div>
+		<button @click='BB()'>点击</button>
+	</div>
+	<div id="demo2">
+		<button @click='BB()'>点击</button>
+	</div>
+</body>
+<script>
+	//view公用方法
+	var BB = function() {
+		console.log(this.name);
+	}
+	//创建model
+	var demo = new Vue({
+		//element的缩写
+		el:'#demo',
+		data:{
+			name:'这是第一个vue:ggithub',
+		},
+		methods:{
+			Click:function() {
+				console.log('hello world!'+this.name);
+				//闭包函数中的this指的是window
+				//(funciton(){
+				//	console.log(this);
+				//})()
+			},
+			ggithub:function() {
+				console.log('hello!');
+			},
+			BB,
+		},
+		ready:function() {
+			this.BB();
+		}
+	})
+	demo.Click();
+	demo.ggithub();
+
+
+	//设置数据
+	// demo.name = 'tt';
+	// demo.$data.name = 'tt';
+	demo.$set('name','tt');
+	//获取name的value值
+	demo.$get('name');
+	new Vue({
+		el:"#demo2",
+		data:{
+			name:'这是第二个',
+		},
+		methods:{
+			BB,
+		}
+	})
+</script>
+</html>

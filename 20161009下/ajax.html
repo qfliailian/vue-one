@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="demo">
+			<p>{{name}}</p>
+			<input v-model="ask" @keyup="get('turing.php',ask)" />
+			<!--<button @click="ajax()">Ajax</button>-->
+		</div>
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		var ajax = {
+			get: function(url, q) {
+				var self = this;
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open('GET', url + '?abc=' + q, true);
+				xmlhttp.send();
+				xmlhttp.onreadystatechange = function() {
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						var json = JSON.parse(xmlhttp.responseText);
+						console.log(json)
+						self.name = json.text
+					}
+				}
+			}
+		}
+		new Vue({
+			el: '#demo',
+			data: {
+				name: '你可以输入你想要问的问题',
+				ask: ''
+			},
+			methods: {
+				get: ajax.get
+			},
+			ready: function() {
+				//this.get('turing.php', this.ask);
+			}
+		})
+	</script>
+
+</html>
